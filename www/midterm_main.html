@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<title>World Data Analysis</title>
+
+	<link rel="stylesheet" type="text/css" href="midterm/midterm_style.css" />
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+
+		google.charts.load('current',{'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawAllSheets);
+
+		function drawAllSheets() {
+			drawSheetName('Healthcare_ACTUAL','SELECT A,C,D,E,F,G',healthcareResponseHandler);
+			drawSheetName('Education_ACTUAL','SELECT A,C,D,E,F,G',educationResponseHandler);
+			drawSheetName('HealthcareEducation_PERCENTOFGDP','SELECT A,B,C,D,E,F',healthcarePercentGDPResponseHandler);
+		}//drawAllSheets
+
+		function drawSheetName(sheetName, query, responseHandler){
+			var queryString = encodeURIComponent(query);
+			var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1pTRPkgVoOTjLyp0JIMBpAEgNzSV9ipMd34QmwKmtxZs/gviz/tq?sheet=' + sheetName + '&headers=1&tq=' + queryString);
+			query.send(responseHandler);
+		}//drawSheetName
+
+		function checkError(response) {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() +
+					' ' + response.getDetailedMessage());
+				return;
+			}		
+		}
+
+			function healthcareResponseHandler(response) {
+			
+			checkError(response);
+			
+			var data = response.getDataTable();
+			format:'short',
+			data.sort({column: 5, desc:true});
+			
+			var options = {
+				height: 400,
+				width: 600,
+
+				vAxis: {title: 'Countries',minValue:0,
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				hAxis: {title: 'Expenditure in Billion USD',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				title: {title:'Countries with Highest Expenditure in Healthcare',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				bar: {groupWidth: "100%"},
+
+				colors: ['#00004c', '#00007f', '#0000b2', '#0000e5', '#0000ff'],
+
+				animation: {
+					duration: 2000,
+					easing: 'inAndOut',
+					startup: true
+				},
+				
+				backgroundColor: ['#E4E4E4'],
+
+				chartArea: {width: "50%", height: "70%" },
+
+				legend: {position: 'right', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+				
+				is3D: {is3D: true}
+			};
+			
+			var chart = new google.visualization.BarChart(
+						document.getElementById('toptenhealth'));
+			chart.draw(data, options);
+		} //healthcareResponseHandler
+
+		function educationResponseHandler(response) {
+			
+			checkError(response);
+			
+			var data = response.getDataTable();
+			data.sort({column: 5, desc:true});
+			
+			var options = {
+				height: 400,
+				width: 600,
+
+				vAxis: {title: 'Countries',minValue:0,
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				hAxis: {title: 'Expenditure in Billion USD',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				title: {title:'Countries with Highest Expenditure in Education',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				bar: {groupWidth: "100%"},
+
+				colors: ['#333300', '#4c4c00', '#666600', '#999900', '#ccc000'],
+				
+				backgroundColor: ['#E4E4E4'],
+
+				animation: {
+					duration: 2000,
+					easing: 'inAndOut',
+					startup: true
+				},
+
+				chartArea: {  width: "50%", height: "70%" },
+
+				legend: {position: 'right', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+				
+				is3D: {is3D: true}
+			};
+			
+			var chart = new google.visualization.BarChart(
+						document.getElementById('topteneducation'));
+			chart.draw(data, options);
+		} //educationResponseHandler
+
+
+
+	</script>	
+</head>
+
+<body>
+	<div id="main">
+		<div class="pagetitle" align="center"><h1> DATS 6401 - Individual Project 1 - Akshay Kamath </h1></div>
+		<div id = "main_page_text">
+		<h3>Project Requirements:</h3>
+		<h4> The aim of this project was to get acquainted with HTML, Javascript in Google APIs &amp; CSS. The project required me to get data from different data sources &amp; structure it in Google Sheets before fetching &amp; plotting it.
+		</h4>
+
+		<h3>
+			Requirements &amp; Methodology:
+		</h3>
+		<h4>For the project, we needed to acquire a few data points.
+				<br>
+				<br>
+				<li><a href="https://data.worldbank.org/indicator/SH.XPD.TOTL.ZS" target="_blank">Healthcare Expenditure across countries</a></li>
+				<br>
+				<li> <a href="https://data.worldbank.org/indicator/SE.XPD.TOTL.GD.ZS" target="_blank">Education Expenditure across countries</a></li>
+				<br>
+				<li> <a href="https://data.worldbank.org/indicator/NY.GDP.MKTP.CD" target="_blank" >Gross Domestic Product (GDP)</a> </li>
+				<br>
+				<li> <a href="https://www.sipri.org/databases/milex" target="_blank">Worldwide Military Spending </a></li>
+				<br>
+		</h4>
+		<h4>
+			<p>The form of the data was not consistent. Military data was in the form of 'Overall Spending' &amp; as a share of GDP. Data for Healthcare &amp; education was in provided as percentage expenditure of the country's GDP. Also, there were quite a few missing values in each and every data set.
+			</p>
+			<br>
+			<p>This analysis was done for a period of years from 2011-2015. The missing values were imputed using an average from the previous few years. 
+			</p>
+			<br>
+			<p>The analysis required us to select the top countries which spent on Education and Healthcare. Based on the average of the years 2011 to 2015, the top countries were selected.</p></h4>
+		</div>
+	<div id="menubar">
+			<ul id="menu">
+	
+			<button onclick="location.href='midterm_healthcareAndEducation.html'" style="width: 250px; height: 50px;" type="button">Healthcare &amp; Education</button>
+
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+
+			<button onclick="location.href='midterm_PerCapitaAnalysis.html'" style="width: 250px; height: 50px;" type="button">Per Capita Analysis</button>
+
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+
+			<button onclick="location.href='midterm_topbottom.html'" style="width: 250px; height: 50px;" type="button">Top &amp; Bottom Countries</button>
+			
+			</ul>
+	</div><!--MENUBAR-->
+		<table>
+			<th>
+				<tr>
+					<th><h3>Top Countries By Healthcare</h3></th>
+					<th><h3>Top Countries By Education</h3></th>
+				</tr>
+				<tr>
+					<td><div id="toptenhealth" style="width:600px";></div></td>
+					<td><div id="topteneducation" style="width:600px";></div></td>
+				</tr>
+			</th>
+		</table>
+		<br>
+		<br>
+	</div><!--MAIN-->
+</body>
+</html>

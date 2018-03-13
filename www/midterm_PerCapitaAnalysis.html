@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<title>Per Capita Analysis</title>
+
+	<link rel="stylesheet" type="text/css" href="midterm/midterm_style.css" />
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+
+		google.charts.load('current',{'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawAllSheets);
+
+		$(window).scroll(function () {
+   		 topInViewport($("#percap_education_Bubble"))
+		});
+
+		function drawAllSheets() {
+			drawSheetName('PCAP','SELECT A,B,C,D,E,F',percapitahealthresponsehandler);
+			drawSheetName('PCAP','SELECT A,H,I,J,K,L',percapitaeducationresponsehandler);
+			drawSheetName('PCAP','SELECT A,N,O,P,Q,R',percapitamilitaryresponsehandler);
+			drawSheetName('PCAP','SELECT A,T,U,V,W,X',percapitagdpresponsehandler);
+			drawSheetName('Bubble','SELECT A, B, C, D, E',percap_health_Bubbleresponsehandler);
+			drawSheetName('Bubble','SELECT G, H, I, J, K',percap_education_Bubbleresponsehandler);
+			//drawSheetName('Mil_vs_HCandEd','SELECT A,G,H,I',percapitaMILvsHCandEDUresponsehandler);
+		}//drawAllSheets
+
+		function drawSheetName(sheetName, query, responseHandler){
+			var queryString = encodeURIComponent(query);
+			var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1pTRPkgVoOTjLyp0JIMBpAEgNzSV9ipMd34QmwKmtxZs/gviz/tq?sheet=' + sheetName + '&headers=1&tq=' + queryString);
+			query.send(responseHandler);
+		}//drawSheetName
+
+		function checkError(response) {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() +
+					' ' + response.getDetailedMessage());
+				return;
+			}		
+		}
+
+		function percapitagdpresponsehandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			//data.sort({column: 5, desc:true});
+			
+			var options = {
+				height: 400,
+				width: 600,
+
+				curveType: 'function',
+
+				title: {title:'Countries with highest Per Person Healthcare Expenditure',
+						titleTextStyle:{color:'#FFF'},
+						textStyle:{color: '#FFF'}},
+
+				chartArea: {  width: "50%", height: "70%" },
+				
+				colors: ['#FF7F00',	'#FF0000',	'#9400D3',	'#FFFF00',	'#FFFFFF'],
+				
+				backgroundColor: ['#000'],
+
+				hAxis: {title:'Years',baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				vAxis: {title:'Amount (in USD)',minValue:0,baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				legend: {position: 'right', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+				
+				is3D: {is3D: true},
+
+				//backgroundColor: '#000',
+
+		        //titleTextStyle: {color: '#FFF'}
+
+		        animation: {
+					duration: 2000,
+					easing: 'inAndOut',
+					startup: true
+				},
+
+			};
+			var chart = new google.visualization.LineChart(
+						document.getElementById('percapitagdp'));
+			chart.draw(data, options);
+		} //percapitagdpResponseHandler
+
+		function percapitamilitaryresponsehandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			//data.sort({column: 5, desc:true});
+			
+			var options = {
+				height: 400,
+				width: 600,
+
+				curveType: 'function',
+
+				chartArea: {  width: "50%", height: "70%" },
+
+				title: {title:'Countries with highest Per Person Military Expenditure',
+						titleTextStyle:{color:'#FFF'},
+						textStyle:{color: '#FFF'}},
+				
+				colors: ['#FF0000',	'#FF7F00',	'#0000FF',	'#FFFFFF',	'#FFFF00'],
+				
+				backgroundColor: ['#000'],
+
+				hAxis: {title:'Years',baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				vAxis: {title:'Amount (in USD)',minValue:0,baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+
+				legend: {position: 'right', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+				
+				is3D: {is3D: true},
+
+				//backgroundColor: '#000',
+
+		        //titleTextStyle: {color: '#FFF'}
+
+		        animation: {
+					duration: 3000,
+					easing: 'inAndOut',
+					startup: true
+				},
+
+			};
+			var chart = new google.visualization.LineChart(
+						document.getElementById('percapitamilitary'));
+			chart.draw(data, options);
+		} //permilitarygdpResponseHandler
+
+		function percapitahealthresponsehandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			//data.sort({column: 5, desc:true});
+			
+			var options = {
+				height: 400,
+				width: 600,
+
+				curveType: 'function',
+
+				chartArea: {  width: "50%", height: "70%" },
+
+				title: {title:'Countries with highest Per Person Healthcare Expenditure',
+						titleTextStyle:{color:'#FFF'},
+						textStyle:{color: '#FFF'}},
+				
+				colors: ['#FF0000','#FF7F00','#9400D3','#FFFF00','#0000FF'],
+				
+				backgroundColor: ['#000'],
+
+				hAxis: {title:'Years',baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				vAxis: {title:'Amount (in USD)',minValue:0,baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				legend: {position: 'right', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+				
+				is3D: {is3D: true},
+
+				//backgroundColor: '#000',
+
+		        //titleTextStyle: {color: '#FFF'}
+
+		        animation: {
+					duration: 4000,
+					easing: 'inAndOut',
+					startup: true
+				},
+
+			};
+			var chart = new google.visualization.LineChart(
+						document.getElementById('percapitahealth'));
+			chart.draw(data, options);
+		} //percapitahealthcareResponseHandler
+
+		function percapitaeducationresponsehandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			//data.sort({column: 5, desc:true});
+			
+			var options = {
+				height: 400,
+				width: 600,
+
+				curveType: 'function',
+
+				chartArea: {  width: "50%", height: "70%" },
+
+				isStacked:true,
+
+				title: {title:'Countries with Highest Per Person Education Expenditure',
+						titleTextStyle:{color:'#FFF'},
+						textStyle:{color: '#FFF'}},
+				
+				colors: ['#9400D3','#00FF00','#FF7F00','#FF0000','#FFFFFF'],
+				
+				backgroundColor: ['#000'],
+
+				hAxis: {title:'Years',baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				vAxis: {title:'Amount (in USD)',minValue:0,
+						baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				legend: {position: 'right', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+				
+				is3D: {is3D: true},
+
+				//backgroundColor: '#000',
+
+		        //titleTextStyle: {color: '#FFF'}
+
+		        animation: {
+					duration: 5000,
+					easing: 'inAndOut',
+					startup: true
+				},
+
+			};
+			var chart = new google.visualization.LineChart(
+						document.getElementById('percapitaeducation'));
+			chart.draw(data, options);
+		} //percapitaeducationResponseHandler
+
+		function percap_health_Bubbleresponsehandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			//data.sort({column: 5, desc:true});
+			
+			var options = {
+				height: 400,
+				width: 575,
+
+				backgroundColor: ['#000'],
+
+				hAxis: {title:'Per Capita Healthcare Expenditure (in USD)',baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				vAxis: {title:'Per Capita GDP (in USD)',baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				animation: {
+					duration: 5000,
+					easing: 'inAndOut',
+					startup: true
+				},
+
+				bubble: {textStyle: {color: "transparent"}},
+
+				colors: ['purple','red','blue','orange','green'],
+
+				legend: {position: 'right', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+
+				dataOpacity: 1.0,
+				
+				is3D: {is3D: true},
+
+				//backgroundColor: '#000',
+
+
+		        //titleTextStyle: {color: '#FFF'}
+
+			};
+			var chart = new google.visualization.BubbleChart(document.getElementById('percap_health_Bubble'));
+			chart.draw(data, options);
+		} //percap_health_Bubbleresponsehandler
+
+
+		function percap_education_Bubbleresponsehandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			//data.sort({column: 5, desc:true});
+			
+			var options = {
+				height: 400,
+				width: 650,
+				
+				backgroundColor: ['#000'],
+
+				hAxis: {title:'Per Capita Education Expenditure (in USD)',baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				vAxis: {title:'Per Capita GDP (in USD)',maxValue:65000, baselineColor:'#FFF',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				colors: ['purple','red','blue','orange','green'],
+
+				animation: {
+					duration: 5000,
+					easing: 'inAndOut',
+					startup: true
+				},
+
+				bubble: {textStyle: {color: "transparent"}},
+
+				legend: {position: 'right', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+				
+				is3D: {is3D: true},
+
+				//backgroundColor: '#000',
+
+
+		        //titleTextStyle: {color: '#FFF'}
+
+			};
+			var chart = new google.visualization.BubbleChart(document.getElementById('percap_education_Bubble'));
+			chart.draw(data, options);
+		} //percap_education_Bubbleresponsehandler
+
+
+
+	</script>
+</head>
+
+<body>
+	<div class="pagetitle" align="center"><h1>Per Capita Analysis</h1></div>
+	<div id="percap_health_Bubble"></div>
+	<div id ="bubble_righttext"  style="width: 650px" > <p>
+		<br>
+		<h3> Comparison between Per Capita GDP &amp; Per Capita Healthcare Expenditure Across Population</h3>
+		<h4>&nbsp;&nbsp;While trying to compare the per capita GDP against per capita Healthcare, I decided to include another field, population into the chart. Looking at the graph, we can conclude that almost all countries with moderately sized populations have similar per capita GDP &amp; per capita healthcare expenditure.</h4></p>
+		<p><h4>&nbsp;&nbsp;The only outliers to these are Brazil, China &amp; the US. US &amp; China are on opposite sides of the graph with the US managing to have a significantly large population but still managing to have both high per capita income &amp; high per capita healthcare expenditures. China, though they have the largest population, they've managed to sneak into the top 10. </h4></p>
+	</div>
+
+	<div id="percap_education_Bubble"></div><p>
+	<div id="China_Note"></div>
+	<div id ="bubble_lefttext"> <p>
+		<br>
+		<br>
+		<br>
+		<br>
+		<h3> Comparison between Per Capita GDP &amp; Per Capita Education Expenditure Across Population</h3>
+		<h4>&nbsp;&nbsp;Again, I opted for a similar logic While trying to compare the per capita GDP against per capita Education Expenditure. It's no surprise to see that most of the countries in the top 10 are from Europe, namely Italy, UK, Germany &amp; Spain.</p>
+		<p><h4>&nbsp;&nbsp;Data for China was not available in the dataset. Hence, US has the largest bubble in this chart. Even though Australia &amp; the US have similar per person GDPs, Australia managed to edge the US for it's per person education expenditure.  
+		</h4></p>
+
+	</div>
+
+	<table>
+			<th>
+				<tr>
+					<th><h3>Top Countries with Highest Per Capita GDP</h3></th>
+					<th><h3>Top Countries with Highest Per Capita Military Expenditure</h3></th>
+				</tr>
+				<tr>
+					<td><div id="percapitagdp" style="width:600px";></div></td>
+					<td><div id="percapitamilitary" style="width:600px";></div></td>
+				</tr>
+			</th>
+	</table>
+			<h4><p>&nbsp;&nbsp;For the years 2011-15, I took an average of the per capita GDP for the Top 5 countries &amp; I ended up with the countries Australia, USA, Canada, Germany &amp; UK. </p><br><p>&nbsp;&nbsp;I, for one, found it surprising that Australia's GDP was higher than US for the years 2011 to 2015. Even though the numbers were declining for Australia, for a period of 5 years they still had the best per capita GDP figures. US seems to have caught up in 2015 though. </p><br><p>&nbsp;&nbsp;On the other hand, US, even though currently is reducing it's per capita military expenditure, is still far ahead as compared to other countries.</p></h4>
+	<table>		
+				<br>
+			<th>
+				<tr>
+					<th><h3>Top Countries with Highest Per Capita Expenditure in Healthcare</h3></th>
+					<th><h3>Top Countries with Highest Per Capita Expenditure in Education</h3></th>
+				</tr>
+				<tr>
+					<td><div id="percapitahealth" style="width:600px";></div></td>
+					<td><div id="percapitaeducation" style="width:600px";></div></td>
+				</tr>
+			</th>
+	</table>
+			<h4><p>&nbsp;&nbsp;In Healthcare, again we can see that the US is the leader &amp; is in a league of its own. It's per person healthcare expenditure is not only a lot higher than other trailing countries, but is seeing an increase since 2011 &amp; is still increasing. Other countries are seeing a drop in ther per capita healthcare expenditure since 2014.</p><br><p>&nbsp;&nbsp;The outcome of per person education spending was somewhat interesting to me since it's Canada that takes the cake &amp; US in the 4<sup>th</sup> place (surprisingly!).</p></h4>
+	<br>
+	<br>
+	<div id="menubar_3">
+			<ul id="menu_3">
+	
+			<button onclick="location.href='midterm_main.html'" style="width: 250px; height: 50px;" type="button">Main Page</button>
+
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+
+			<button onclick="location.href='midterm_topbottom.html'" style="width: 250px; height: 50px;" type="button">Top &amp; Bottom Countries</button>
+			
+			</ul>
+	</div><!--MENUBAR-->
+</body>
+
+</html>

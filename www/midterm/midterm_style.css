@@ -1,0 +1,362 @@
+html{height: 100%;}
+
+* {margin: 0;
+   padding: 0;}
+
+body {font: normal .78em arial, sans-serif;
+
+	background: #111;
+	color: #999;
+}
+
+h1
+{font: normal 200% 'century gothic', arial, sans-serif;
+ color: #999;
+ margin: 30px 20px 0 20px;
+ padding: 30px 30px 0 30px;
+}
+
+h2 
+{font: normal 170% 'century gothic', arial, sans-serif;
+ color: #999;
+ margin: 30px 20px 0 20px;
+ padding: 0 0 0 0;
+}
+
+h3 
+{font: normal 140% 'century gothic', arial, sans-serif;
+ color: #999;
+ margin: 30px 30px 30px 20px;
+ padding: 0 30px 0 30px;
+}
+
+h4 
+{font: normal 120% 'century gothic', arial, sans-serif;
+ color: #999;
+ margin: 30px 30px 30px 30px;
+ padding: 0 50px 0 50px;
+}
+
+
+#main_page_text{
+
+	/*border: 2px solid red;*/
+	width: 1200px;
+	margin: 0 0 0 20px;
+}
+
+#percap_health_Bubble{
+	width: 600px;
+	height: 420px;
+	display: inline-table;
+	/*border: 3px solid red;*/
+}
+
+#bubble_righttext{
+	width: 575px;
+	height: 200px;
+	display: inline-table;
+	float: right;
+	vertical-align: top;
+}
+
+#percap_education_Bubble{
+	width: 400px;
+	height: 400px;
+	display: inline-table;
+	float: right;
+	vertical-align: top;
+}
+
+#bubble_lefttext{
+	/*border: 3px solid red;*/
+	width: 600px;
+	height: 275px;
+	display: inline-table;
+	float: left;
+	vertical-align: top;
+	margin-top: -40px;
+}
+
+
+#topbottomhealth_percent
+{
+	/*border: 1px solid blue;*/
+	width: 600px;
+	/*margin-top: -55px;*/
+	margin-left: 35px;
+	vertical-align: top;
+	display: inline-table;
+}
+
+
+#percentchange_righttext1
+{
+/*	border: 1px solid yellow;
+*/	float: right;
+	display: inline-table;
+	width: 600px;
+	height: 400px;
+}
+
+#topbottomhealth_raw
+{
+/*	border: 1px solid red;
+*/	width: 600px;
+	/*margin-top: -55px;*/
+	margin-left: 40px;
+	vertical-align: top;
+	display: inline-table;	
+}
+
+#percentchange_righttext2
+{
+/*	border: 1px solid green;
+*/	margin-top:-420px;
+	margin-left:-50px;  
+	float: right;
+	display: inline-table;
+	width: 600px;
+	height: 400px;
+}
+
+#topbottomeducation_percent
+{
+/*	border: 1px solid white;
+*/	width: 600px;
+	/*margin-top: -55px;*/
+	margin-left: 435px;
+	/*vertical-align: top;*/
+	display: inline-table;
+	float: right;
+}
+
+#percentchange_lefttext1
+{
+/*	border: 1px solid purple;
+*/	float: left;
+	display: inline-table;
+	width: 600px;
+	height: 400px;
+	margin-top: -400px;
+	margin-left: 35px;
+}
+
+#topbottomeducation_raw
+{
+/*	border: 1px solid orange;
+*/	width: 600px;
+	/*margin-top: -55px;*/
+	margin-left: 435px;
+	/*vertical-align: top;*/
+	display: inline-table;
+	float: right;
+}
+
+#percentchange_lefttext2
+{
+/*	border: 1px solid red;
+*/	float: left;
+	display: inline-table;
+	width: 600px;
+	height: 400px;
+	margin-top: -400px;
+	margin-left: 35px;
+}
+
+
+#geochart_all{
+	/*border: 1px solid red;*/
+	display: inline-table;
+	width: 1000;
+	height: 500;
+	margin-left: 80;
+
+
+}
+
+#chart_div
+{
+/*	border: 3px solid red;
+*/	width: 1000;
+	height: 500;
+	margin-left: 80;
+}
+
+#filter_div{
+	font-size: 120%;
+}
+
+
+.geocharttext{
+/*	border: 3px solid red;
+*/	display: inline-table;
+	margin-left: 80;
+	width: 1150;
+}
+
+.goog-inline-block 	
+{
+    background-color: #111;
+   	color: #FFF;
+   	font-family: 'century gothic';
+   	font-size: 16;
+}
+
+
+#healthcarevsgdp{
+/*	border: 1px solid red;
+*/	display: inline-block;
+	margin-top: 100; 
+	width: 700;
+	height: 300;
+	margin-left: 80;
+	margin-top: 0;
+	float: left;
+
+}
+
+#percentcomparisonchart{
+/*	border: 1px solid red;
+*/	display: inline-block;
+	width: 700;
+	height: 300;
+	margin-left: 80;
+}
+
+
+#healtheducationtext_1{
+/*	border: 1px solid red;
+*/	display: inline-block;
+	width: 450;
+	height: 300;
+	float: relative;
+	
+}
+
+#healtheducationtext_2{
+/*	border: 1px solid red;
+*/	display: inline-block;
+	width: 450;
+	height: 300;
+	float: right;
+	margin-right: 29;
+}
+
+/**/
+
+/Button/
+#page2{
+height:550;
+width:600;
+text-decoration: none;
+background-color: black;
+color: black;
+}
+
+
+#page2:hover {
+background:#FFF;
+background-color: #2F4F4F;
+color: black;
+}
+
+button {
+	font-size: 16px;
+	margin: 0;
+	color: white;
+	background-color: black;
+	width: 200;
+	height: 200;
+	font-family: 'century gothic'
+    }
+
+#health_map_button {
+  margin-left: 500px;
+}
+
+#edu_map_button{
+  margin-right: 100px;
+}
+
+
+/**/
+
+
+.btn{
+
+height:450;
+width:300;
+text-decoration: none;
+background-color: black;
+color: black;
+
+}
+
+#menubar {
+	/*border: 3px solid red;*/
+	position: relative;
+	width: 1000px;
+	height: 100px;
+	padding: 8px 0 0px 0;
+	margin-left: 180px;
+	display: block;
+}
+
+#menubar_2{
+/*	border: 3px solid red;*/
+	position: relative;
+	width: 600px;
+	height: 100px;
+	padding: 38px 0 0px 0;
+	margin-left: 350px;
+	display: block;
+}
+
+#menubar_3{
+/*	border: 3px solid red;
+*/	width: 600px;
+	height: 100px;
+	padding: 38px 0 0px 0;
+	margin-left: 350px;
+	display: block;
+}
+
+ul#menu li.selected a {
+	height: 25px;
+	color: #111;
+	padding: 7px 22px 5px 16px;
+}
+
+.pagetitle{
+	/*border: 3px solid red;*/
+	text-align: center;
+	vertical-align: middle;
+	line-height: 90px; 
+	transform: translateY(-30%); 
+}
+
+/*.freezer{
+	display: inline-block;
+	border: 3px solid green; 
+}
+*/
+/* unvisited link */
+a:link {
+    color: grey;
+}
+
+/* visited link */
+a:visited {
+    color: gray;
+}
+
+/* mouse over link */
+a:hover {
+    color: hotpink;
+}
+
+/* selected link */
+a:active {
+    color: red;
+}

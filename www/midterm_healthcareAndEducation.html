@@ -1,0 +1,241 @@
+<title>Healthcare &amp; Education</title>
+<head>
+
+	<link rel="stylesheet" type="text/css" href="midterm/midterm_style.css">
+	<link rel="stylesheet" type="animate.css">
+
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+	<script type="text/javascript">
+
+		google.charts.load('current',{'packages':['corechart','scatter','line','map','controls','bar']});
+		google.charts.setOnLoadCallback(drawAllSheets);
+		google.charts.setOnLoadCallback(drawDashboard);
+
+		function drawAllSheets() {
+			drawSheetName('Healthcare_ALL','SELECT M, N, O, P',healthcareresponsehandler);
+			drawSheetName('Healthcare_PERCENTOFGDP','SELECT A,B,C,D,E,F',healthcarevsgdpresponsehandler);
+			drawSheetName('HC_ED_MIL','SELECT A, B, C, D',percentcomparisonchartresponsehandler);
+			//drawSheetName('Bubble','SELECT A, B, C, D, E',Bubbleresponsehandler);
+			}//drawAllSheets
+
+		function checkError(response) {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() +
+					' ' + response.getDetailedMessage());
+				return;
+			}		
+		}//checkError
+
+		function drawSheetName(sheetName, query, responseHandler){
+			var queryString = encodeURIComponent(query);
+			var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1pTRPkgVoOTjLyp0JIMBpAEgNzSV9ipMd34QmwKmtxZs/gviz/tq?sheet=' + sheetName + '&headers=1&tq=' + queryString);
+			query.send(responseHandler);
+		}//drawSheetName
+
+
+//*******************************************************************************************************************************************
+function healthcareresponsehandler(response){
+		checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 2, desc:true});
+			var dashboard = new google.visualization.Dashboard(document.getElementById('geochart_all'));
+			
+			var ChartFilter = new google.visualization.ControlWrapper({
+			 					'controlType': 'CategoryFilter',
+          						'containerId': 'filter_div',
+          						'options': {'position':'right','filterColumnLabel': 'Parameter','ui': {'labelStacking':'vertical', 'allowTyping':false,'allowMultiple':false,'allowNone':false}}
+        						});
+
+			 var geochart = new google.visualization.ChartWrapper({
+          						'chartType': 'GeoChart',
+          						'containerId': 'chart_div',
+          						'backgroundColor': 'transparent',
+          						'options': {'backgroundColor':'#111',colorAxis: {minValue: 0,  colors: ['#F00','#FF0','#3F0']}},
+          						'view':{columns:['Countries','Percent of GDP','Amount in USD Billion']}
+		        				});
+
+	dashboard.bind(ChartFilter, geochart);
+   	dashboard.draw(data);
+
+		}
+
+//*******************************************************************************************************************************************
+
+	// 	function healthcareresponsehandler(response) {
+	// 		checkError(response);
+	// 		var data = response.getDataTable();
+	// 		//data.sort({column: 2, desc:true});
+			
+	// 		var options = {
+	// 			title: {title:'Countries with highest Expenditure in Healthcare',
+	// 			titleTextStyle:{color:'#FFF'},
+	// 			textStyle:{color: '#FFF'}},
+	// 			backgroundColor: '#111',
+
+	// 			legend: {position: 'right', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+
+	// 			colorAxis: {minValue: 0,  colors: ['#F00','#FF0','#3F0']},
+				
+	// 			is3D: {is3D: true}
+
+	// 	};
+
+	// 		var chart = new google.visualization.GeoChart(document.getElementById('healthcare_geochart'));
+	// 		chart.draw(data, options);
+	// }//healthcare_geochart
+
+
+		function healthcarevsgdpresponsehandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 5, desc:true});
+			
+			var options = {
+
+				/*height:300,
+
+				width:695,*/
+								
+				title: {title:'Healthcare v GDP Comparison (2015)',
+						titleTextStyle:{color:'#FFF'},
+						textStyle:{color: '#FFF'}},
+
+				isStacked: false,
+
+				vAxis: {title: 'Countries',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				hAxis: {title: 'Expenditure in Healthcare as a Percent of GDP',format:'#%',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+				
+				//colors: ['#0000FF','#4169E1','#87CEEB','#B0E0E6','#B0C4DE'],
+				
+				backgroundColor: '#111',
+
+				chartArea: {  width: "50%", height: "70%" },
+
+				bar: {groupWidth: "90%"},
+
+				animation: {
+					duration: 3000,
+					easing: 'inAndOut',
+					startup: true
+				},
+
+				colors: ['#600', '#990000', '#c00', '#ff4c4c', '#ff9999'],
+
+				legend: {position: 'right', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+
+				colorAxis: {minValue: 0,  colors: ['#F00','#FF0','#0F0']},
+				
+				//is3D: {is3D: true}
+			};//Healthcare_ALL
+
+			var chart = new google.visualization.BarChart(document.getElementById('healthcarevsgdp'));
+			chart.draw(data, options);
+	}//healthcarevsgdpresponsehandler
+
+
+		function percentcomparisonchartresponsehandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			//data.sort({column: 2, desc:true});
+			
+			var options = {
+				
+				/*height: 400,
+				
+				width: 1000,*/
+				
+				title: {title:'Percent Distribution of Education, Healthcare & Military Expenditure (2015)',
+						titleTextStyle:{color:'#FFF'},
+						textStyle:{color: '#FFF'}},
+
+				isStacked: 'percent',
+
+				colors: ['#0000b3', '#b2b200', '#228B22'],
+
+				vAxis: {title: 'Countries',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				hAxis: {title: 'Comparing Expenditures in Healthcare, Education & Military',
+						ticks:[0, .25, .5, .75, 1],
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				chartArea: {  width: "50%", height: "70%" },
+
+				//bar: {groupWidth: "100%"},
+				
+				//colors: ['#0000FF','#4169E1','#87CEEB','#B0E0E6','#B0C4DE'],
+				
+				backgroundColor: '#111',
+
+				animation: {
+					duration: 3000,
+					easing: 'inAndOut',
+					startup: true
+				},
+
+				legend: {position: 'right', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+
+				colorAxis: {minValue: 0,  colors: ['#F00','#FF0','#0F0']},
+				
+				is3D: {is3D: true}
+			};//Healthcare_ALL
+
+			var chart = new google.visualization.BarChart(document.getElementById('percentcomparisonchart'));
+			chart.draw(data, options);
+	}//percentcomparisonchartresponsehandler
+
+
+		
+	</script>
+</head>
+
+<body>
+	<div class="pagetitle" align="center"><h1>A look at Healthcare &amp; Expenditure across countries</h1></div>
+    <div id="geochart_all">
+    	<h2 align = "center"> Healthcare &amp; Education expenditure comparison across the world (2015)</h2>
+      <div id="filter_div" class="sliderClass"></div>
+      <div id="chart_div"></div>
+	</div>
+	<div class="geocharttext">
+		<h4><p>&nbsp;&nbsp;For comparing the Health &amp; Education Expenditures against the GDPs of their respective countries, I plotted the expenditures as the raw figures &amp; as a percent of their GDPs in this geo chart. Unfortunately, the data for education expenditures had a lot of empty values &amp; hence, accordingly, I had to remove them. I considered data for only those countries which have data for at least 4 years (2011-15) &amp; used them in this chart.</p><br><p>&nbsp;&nbsp;Looking at the Healthcare data for 2015, we can see that US is the leader &amp; it spends almost 17% of it's GDP on Healthcare. Laos comes in the last spot with a meagre 2% of its GDP being used for Healthcare. Most developed West European countries spend approximately 9% to 11% of their expenditure on Healthcare, whereas most less developed East European nations spend 5% to 7% of their GDPs on their Healthcare.</p><br><p>&nbsp;&nbsp;Looking at the Education data, we can see that Scandanavian countries like Finland &amp; Sweden spend almost 7% of their GDP on education. Unfortunately, due to a lack of datapoints, we do not have data for a majority of the countries &amp; hence the data is skewed towards the green. However, from the datapoints that we have, we can see that the African nations of South Sudan, &amp; Uganda, Asian countries of Azerbaijan, Sri Lanka &amp; Cambodia have the lowest expenditure on Education, almost 2%.</p></h4>
+	</div>
+	<div id="healthcarevsgdp" align="center"></div>
+	<div id="healtheducationtext_1">
+	<h4><p><p>&nbsp; &nbsp;Looking at Healthcare as a percent of GDP, we can see that US is the leader across the world &amp; has been one consistently forthe years 2011-15. I included Japan as it was the median country when we consider this parameter. China, was the last in the top 10 countries, with it's Healthcare expennditure being a measley 5% of it's GDP. But then again, it's the country with the highest population &amp; managing to break into the top 10 is an achievement in itself.</p></h4>
+	</div>
+	<div id = "percentcomparisonchart", align="center"></div>
+	<div id="healtheducationtext_2">
+	<h4><p><p>&nbsp;&nbsp;If we were to consider Healthcare, Education &amp; Military as the only expenditures that a country had, Japan is the top country with the highest share of it's GDP being used for Healthcare, measuring upto 81%. Italy on the other hand has the lowest share of only 41%.</p><p>&nbsp;&nbsp;Conversely, Italy has the highest expenditure (51%) in education whereas, Japan, only has 11.5%.<p>&nbsp;&nbsp;China, in the middle, has the highest expenditure on Military.</p></p></h4>
+	</div>
+	<div id="menubar_2">
+			<ul id="menu_2">
+	
+			<button onclick="location.href='midterm_main.html'" style="width: 250px; height: 50px;" type="button">Main Page</button>
+
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+			&nbsp;
+
+			<button onclick="location.href='midterm_PerCapitaAnalysis.html'" style="width: 250px; height: 50px;" type="button">Per Capita Analysis</button>
+			
+			</ul>
+	</div><!--MENUBAR-->
+
+</body>
+
+

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<title>Top &amp; Bottom Countries</title>
+
+	<link rel="stylesheet" type="text/css" href="midterm/midterm_style.css" />
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+
+		google.charts.load('current',{'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawAllSheets);
+
+		function drawAllSheets() {
+			drawSheetName('TopBottomCountries','SELECT A,L,M',topbottomhealth_percentresponsehandler);
+			drawSheetName('TopBottomCountries','SELECT O,T,U',topbottomhealth_rawresponsehandler);
+			drawSheetName('TopBottomCountries','SELECT W,X,Y',topbottomeducation_percentresponsehandler);
+			drawSheetName('TopBottomCountries','SELECT AA,AB,AC',topbottomeducation_rawresponsehandler);
+
+			}//drawAllSheets
+
+		function drawSheetName(sheetName, query, responseHandler){
+			var queryString = encodeURIComponent(query);
+			var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1pTRPkgVoOTjLyp0JIMBpAEgNzSV9ipMd34QmwKmtxZs/gviz/tq?sheet=' + sheetName + '&headers=1&tq=' + queryString);
+			query.send(responseHandler);
+		}//drawSheetName
+
+		function checkError(response) {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() +
+					' ' + response.getDetailedMessage());
+				return;
+			}		
+		}
+
+		function topbottomhealth_percentresponsehandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			//data.addColumn({type: 'string', role: 'style'});
+			//data.addRows(['color:green','color:red','color:white','color:purple','color:pink','color:blue','color:black','color:red','color:pink','color:blue']);
+			//data.sort({column: 5, desc:true});
+
+			var options = {
+				height: 400,
+				width: 600,
+
+				title:'Countries with most change in Healthcare (Average pct Change)',
+					//	titleTextStyle:{color:'#FFF'}},
+					//	textStyle:{color: '#FFF'}},
+				
+				colors: ['#ccff00', '#ff3300'],
+
+				backgroundColor: ['#000'],
+
+				chartArea: {  width: "50%", height: "70%" },
+
+				hAxis: {title:'Percent Change',baselineColor:'#FFF',format:'#%',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						//colors: ['red',	'blue',	'green','white','purple','red',	'blue',	'green','white','purple'],
+						ticks:[-.15, -.10, -.05,.0, .05, .10, .15],
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines:{color: 'transparent'}},
+
+				vAxis: {title:'Countries',minValue:0,baselineColor:'#FFF',fontName:'century gothic',
+						//colors: ['red',	'blue',	'green','white','purple','red',	'blue',	'green','white','purple'],
+						titleTextStyle:{fontName:'century gothic',color:'#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				legend: {position: 'none', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+				
+				is3D: {is3D: true},
+
+				bar: {
+    				groupWidth: 200
+				},
+
+				//backgroundColor: '#000',
+
+		        //titleTextStyle: {color: '#FFF'}
+
+		        animation: {
+					duration: 2000,
+					easing: 'inAndOut',
+					startup: true
+				},
+			};
+			var chart = new google.visualization.BarChart(document.getElementById('topbottomhealth_percent'));
+			chart.draw(data, options);
+
+		} //topbottomhealth_percentresponsehandler
+
+		function topbottomhealth_rawresponsehandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			//data.addColumn({type: 'string', role: 'style'});
+			//data.addRows(['color:green','color:red','color:white','color:purple','color:pink','color:blue','color:black','color:red','color:pink','color:blue']);
+			//data.sort({column: 5, desc:true});
+
+			var options = {
+				height: 400,
+				width: 600,
+
+				title: {title:'Countries with most change in Healthcare (Average Change in USD)',
+						titleTextStyle:{color:'#FFF'},
+						textStyle:{color: '#FFF'}},
+				
+				colors: ['#ccff00', '#ff3300'],
+
+				backgroundColor: ['#000'],
+
+				hAxis: {title:'Change in Healthcare Expenditure in USD Bil',baselineColor:'#FFF',
+						//colors: ['red',	'blue',	'green','white','purple','red',	'blue',	'green','white','purple'],
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines:{color: 'transparent'}},
+
+				vAxis: {title:'Countries',minValue:0,baselineColor:'#FFF',
+						//colors: ['red',	'blue',	'green','white','purple','red',	'blue',	'green','white','purple'],
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines: {color: 'transparent'}},
+
+				legend: {position: 'none', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+				
+				is3D: {is3D: true},
+
+				bar: {
+    				groupWidth: 200
+					},
+
+				chartArea: {  width: "50%", height: "70%" },
+
+				//backgroundColor: '#000',
+
+		        //titleTextStyle: {color: '#FFF'}
+
+		        animation: {
+					duration: 3000,
+					easing: 'inAndOut',
+					startup: true
+				},
+			};
+			var chart = new google.visualization.BarChart(document.getElementById('topbottomhealth_raw'));
+			chart.draw(data, options);
+
+		} //topbottomeducation_percentresponsehandler
+
+			function topbottomeducation_percentresponsehandler(response) {
+				checkError(response);
+				var data = response.getDataTable();
+				//data.addColumn({type: 'string', role: 'style'});
+				//data.addRows(['color:green','color:red','color:white','color:purple','color:pink','color:blue','color:black','color:red','color:pink','color:blue']);
+				//data.sort({column: 5, desc:true});
+
+				var options = {
+					height: 400,
+					width: 600,
+
+					title: {title:'Countries with most change in Education (Average % Change)',
+							titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+							textStyle:{color: '#FFF'}},
+					
+					colors: ['#ccff00', '#ff3300'],
+
+					backgroundColor: ['#000'],
+
+					hAxis: {title:'Percent Change',baselineColor:'#FFF',format:'#%',
+							//colors: ['red',	'blue',	'green','white','purple','red',	'blue',	'green','white','purple'],
+							ticks:[-0.05, -0.025, 0, 0.025, 0.05],
+							titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+							textStyle:{fontName:'century gothic', color: '#FFF'},
+							gridlines:{color: 'transparent'}},
+
+					vAxis: {title:'Countries',minValue:0,baselineColor:'#FFF',
+							//colors: ['red',	'blue',	'green','white','purple','red',	'blue',	'green','white','purple'],
+							titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+							textStyle:{fontName:'century gothic', color: '#FFF'},
+							gridlines: {color: 'transparent'}},
+
+					chartArea: {  width: "50%", height: "70%" },
+
+					legend: {position: 'none', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+					
+					is3D: {is3D: true},
+
+					bar: {
+	    				groupWidth: 200
+					},
+
+					//backgroundColor: '#000',
+
+			        //titleTextStyle: {color: '#FFF'}
+
+			        animation: {
+						duration: 4000,
+						easing: 'inAndOut',
+						startup: true
+					},
+				};
+				var chart = new google.visualization.BarChart(document.getElementById('topbottomeducation_percent'));
+				chart.draw(data, options);
+
+			} //topbottomeducation_percentresponsehandler
+
+		function topbottomeducation_rawresponsehandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			//data.addColumn({type: 'string', role: 'style'});
+			//data.addRows(['color:green','color:red','color:white','color:purple','color:pink','color:blue','color:black','color:red','color:pink','color:blue']);
+			//data.sort({column: 5, desc:true});
+
+			var options = {
+				height: 400,
+				width: 500,
+
+				title: {title:'Countries with most change in Education (Average Change in USD)',
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						textStyle:{color: '#FFF'}},
+				
+				colors: ['#ccff00', '#ff3300'],
+
+				backgroundColor: ['#000'],
+
+				hAxis: {title:'Change in Education Expenditure in USD Bil',baselineColor:'#FFF',
+						ticks:[-500,0,500,1000,1500],
+						//colors: ['red',	'blue',	'green','white','purple','red',	'blue',	'green','white','purple'],
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines:{color: 'transparent'}},
+
+
+				vAxis: {title:'Countries',minValue:0,baselineColor:'#FFF',
+						//colors: ['red',	'blue',	'green','white','purple','red',	'blue',	'green','white','purple'],
+						titleTextStyle:{fontName:'century gothic',color: '#FFF'},
+						textStyle:{fontName:'century gothic', color: '#FFF'},
+						gridlines:{color: 'transparent'}},
+
+				legend: {position: 'none', textStyle: {color: '#FFF' , fontName:'century gothic'}},
+
+				chartArea: {width: "55%", height: "70%" },
+
+
+				is3D:true,
+
+				bar: {
+    				groupWidth: 200
+					},
+
+				//backgroundColor: '#000',
+
+		        //titleTextStyle: {color: '#FFF'}
+
+		        animation: {
+					duration: 5000,
+					easing: 'inAndOut',
+					startup: true
+				},
+			};
+			var chart = new google.visualization.BarChart(document.getElementById('topbottomeducation_raw'));
+			chart.draw(data, options);
+
+		} //topbottomeducation_rawresponsehandler
+		
+	</script>
+</head>
+<body>
+	<div class="pagetitle" align="center"><h1>Healthcare Expenditure (2011-15)</h1></div>
+	<div class="freezer">
+		<div id = "topbottomhealth_percent"></div>
+		<div id = "percentchange_righttext1">
+			<h3>Countries with most change in Healthcare Expenditure (Average % Change over 5 years)</h3>
+			<h4>&nbsp;&nbsp;In the time frame of 5 years, 2011-15, China has increased its Healthcare Expenditure by almost 14% &amp; for a country of that size &amp; population, it's certainly impressive. India, another country with a huge population, has increased its Healthcare Expenditure by 7%. Of all the developed countries, UK is the only country that is in the Top 5 &amp; has increased it's Healthcare Expenditure by 5%.<br><br><p>&nbsp;&nbsp;Speaking of developed countries, Japan is surprisingly present in the list of countries that have reduced it's Healthcare Expenditure. Greece, having been severely affected by the economic crisis of 2008, has not managed to recover &amp; has been reducing it's Healthcare Expenditure from 2009-15 period as concurred by <a href="https://www2.deloitte.com/content/dam/Deloitte/gr/Documents/life-sciences-health-care/gr_healthcare_in_greece_noexp.pdf" target="_blank">Deloitte in their Healthcare Overview report of Greece.</a> </p></h4>
+		</div>
+	</div>
+
+	<div class="freezer">
+		<div id = "topbottomhealth_raw"></div>
+		<div id = "percentchange_righttext2">
+			<h3>Countries with most change in Healthcare (Average Change in million USD)</h3>
+			<h4>&nbsp;&nbsp;Looking at the raw numbers when comparing the change in Healthcare Expenditure, US, has kept increasing it's spending &amp; are far ahead of China, in the second place. US, though, has continued to increase it's Healthcare Expenditure, are surprisingly not in the Top 5 countries with highest increase in Healthcare Expenditure.<br><br><p>&nbsp;&nbsp;Japan, one of the few countries who recorded a higher average growth during the crisis as compared to pre-2009, surprsingly has seen a decrease in healthcare expenditure. <a href="https://www.japantimes.co.jp/news/2017/08/11/business/japans-health-care-far-free-ballooning-costs-mean-higher-premiums/#.WqYHf-jwY2w" target="_blank">According to the Japan Times</a>, apparently fewer people have enrolled in the universal Healthcare system as compared to 2015, mainly due to stagnant population growth. In addition, over the past decade or so the portion of subscribers who were delinquent in their payments has been increasing &amp; that has resulted in a huge decrease in Healthcare Expenditure. </p></h4>
+		</div>
+	</div>
+	<br>
+	<h1 align="Center"></h1>
+	<div class="pagetitle" align="center"><h1>Education Expenditure (2011-15)</h1></div>
+
+	<br>
+	<div id = "topbottomeducation_percent"></div>
+	<div id = "percentchange_lefttext1">
+		<h3>Countries with most change in Education Expenditure (Average % Change)</h3>
+		<h4>&nbsp;&nbsp;The data for the Education expenditure was available only till 2014 &amp; it had a lot of empty values. In this analysis, I've considered the G-20 countries &amp; have included countries from the European Union too. However, I've excluded countries in the years 2010-15 with more than 1 empty value. For calculating the 2015 values, I've simply taken an average over the past 5 years.<br><p><br>&nbsp;&nbsp; Over a period of 5 years, Sweden are at the top of the list of countries who have increased their Education Expenditure (on average) at 4%. Indonesia, Australia &amp; the US are tied 2<sup>nd</sup> on this list. </p><br>&nbsp;&nbsp;Developed countries like Spain, Japan, Portugal &amp; the Netherlands have surprisingly decreased their Education expenditure during this time period.</h4>
+	</div>
+	<div id = "topbottomeducation_raw"></div>
+	<div id = "percentchange_lefttext2">
+		<h3>Countries with most change in Education Expenditure (Average Change in million USD)</h3>
+		<h4>&nbsp;&nbsp;Inspite of only an average of 2%  increment in the US Educational Expenditure, they're at the top of the list of countries which have increased their Educational Expenditure. Australia are in the 2<sup>nd</sup> spot with an average increament that is almost 1/10<sup>th</sup> as compared to that of the US. <br><br><p>&nbsp;&nbsp;Surprisingly, Japan is again the country with the highest cuts in Educational Expenditure. The numbers of this analysis match with the article from <a href="https://www.japantimes.co.jp/news/2017/09/13/national/japan-ranked-last-among-34-nations-public-spending-education-2014-oecd/#.WqYgVujwY2w" target="_blank">the Japan times based on the OECD report.</a></h4>
+	</div>
+</body>
+
+</html>
